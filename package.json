@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
+    "seed": "node lib/seed.mjs",
     "start": "next start",
     "lint": "next lint",
     "lint-staged": "lint-staged",
@@ -24,8 +25,16 @@
   "dependencies": {
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.1.3",
+    "@lemonsqueezy/lemonsqueezy.js": "^3.2.0",
+    "@vercel/kv": "^2.0.0",
+    "adm-zip": "^0.5.14",
+    "axios": "^1.7.2",
     "clsx": "^2.1.0",
+    "dotenv": "^16.4.5",
     "geist": "^1.3.0",
+    "jose": "^5.6.3",
+    "moment": "^2.30.1",
+    "nanoid": "^5.0.7",
     "next": "14.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -33,6 +42,7 @@
   "devDependencies": {
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/typography": "^0.5.12",
+    "@types/adm-zip": "^0.5.5",
     "@types/node": "20.12.7",
     "@types/react": "18.2.79",
     "@types/react-dom": "18.2.25",

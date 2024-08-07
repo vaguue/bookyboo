@@ -10,6 +10,7 @@ export type Edge<T> = {
 
 export type Cart = Omit<ShopifyCart, 'lines'> & {
   lines: CartItem[];
+  status?: string;
 };
 
 export type CartItem = {
@@ -31,6 +32,7 @@ export type CartItem = {
 
 export type Collection = ShopifyCollection & {
   path: string;
+  products: string[];
 };
 
 export type Image = {
@@ -64,6 +66,8 @@ export type Page = {
 export type Product = Omit<ShopifyProduct, 'variants' | 'images'> & {
   variants: ProductVariant[];
   images: Image[];
+  downloadUrl: string;
+  priority?: number;
 };
 
 export type ProductOption = {

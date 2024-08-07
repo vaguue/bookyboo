@@ -3,6 +3,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import Price from 'components/price';
+import { IconSpinner } from 'components/icons';
 import { DEFAULT_OPTION } from 'lib/constants';
 import type { Cart } from 'lib/shopify/types';
 import { createUrl } from 'lib/utils';
@@ -13,6 +14,8 @@ import CloseCart from './close-cart';
 import { DeleteItemButton } from './delete-item-button';
 import { EditItemQuantityButton } from './edit-item-quantity-button';
 import OpenCart from './open-cart';
+import { useFormState, useFormStatus } from 'react-dom'
+import { getCheckoutUrl } from 'app/actions'
 
 type MerchandiseSearchParams = {
   [key: string]: string;
@@ -20,9 +23,20 @@ type MerchandiseSearchParams = {
 
 export default function CartModal({ cart }: { cart: Cart | undefined }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const emailRef = useRef(null);
   const quantityRef = useRef(cart?.totalQuantity);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
+
+  const [checkoutUrlResult, dispatchCheckoutUrlResult] = useFormState(getCheckoutUrl, undefined);
+
+  useEffect(() => {
+    if (typeof checkoutUrlResult === 'string') {
+      window.createLemonSqueezy();
+      window.LemonSqueezy.Url.Open(checkoutUrlResult);
+    }
+  }, [checkoutUrlResult]);
 
   useEffect(() => {
     // Open cart modal when quantity changes.
@@ -139,13 +153,6 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                                 amount={item.cost.totalAmount.amount}
                                 currencyCode={item.cost.totalAmount.currencyCode}
                               />
-                              <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
-                                <EditItemQuantityButton item={item} type="minus" />
-                                <p className="w-6 text-center">
-                                  <span className="w-full text-sm">{item.quantity}</span>
-                                </p>
-                                <EditItemQuantityButton item={item} type="plus" />
-                              </div>
                             </div>
                           </div>
                         </li>
@@ -153,19 +160,7 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                     })}
                   </ul>
                   <div className="py-4 text-sm text-neutral-500 dark:text-neutral-400">
-                    <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 dark:border-neutral-700">
-                      <p>Taxes</p>
-                      <Price
-                        className="text-right text-base text-black dark:text-white"
-                        amount={cart.cost.totalTaxAmount.amount}
-                        currencyCode={cart.cost.totalTaxAmount.currencyCode}
-                      />
-                    </div>
-                    <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
-                      <p>Shipping</p>
-                      <p className="text-right">Calculated at checkout</p>
-                    </div>
-                    <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
+                    <div className="flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
                       <p>Total</p>
                       <Price
                         className="text-right text-base text-black dark:text-white"
@@ -174,12 +169,21 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
                       />
                     </div>
                   </div>
-                  <a
-                    href={cart.checkoutUrl}
-                    className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
-                  >
-                    Proceed to Checkout
-                  </a>
+                  <form action={dispatchCheckoutUrlResult}>
+                    <input
+                      type="text"
+                      name="coupon"
+                      placeholder="Your coupon..."
+                      autoComplete="off"
+                      className="w-full rounded-lg border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400 mb-4"
+                    />
+                    <input
+                      type="hidden"
+                      name="cartId"
+                      value={cart.id}
+                    />
+                    <CheckoutButton/>
+                  </form>
                 </div>
               )}
             </Dialog.Panel>
@@ -187,5 +191,18 @@ export default function CartModal({ cart }: { cart: Cart | undefined }) {
         </Dialog>
       </Transition>
     </>
+  );
+}
+
+function CheckoutButton() {
+  const { pending } = useFormStatus()
+
+  return (
+    <button
+      disabled={pending}
+      className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100 flex justify-center h-[44px]"
+    >
+      {pending ? <IconSpinner/> : 'Proceed to Checkout'}
+    </button>
   );
 }

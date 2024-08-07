@@ -2,8 +2,10 @@ import { Carousel } from 'components/carousel';
 import { ThreeItemGrid } from 'components/grid/three-items';
 import Footer from 'components/layout/footer';
 
+//rebuild
+
 export const metadata = {
-  description: 'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+  description: 'Unique collection of ebooks dedicated to Museology',
   openGraph: {
     type: 'website'
   }

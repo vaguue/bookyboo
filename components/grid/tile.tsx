@@ -6,10 +6,12 @@ export function GridTileImage({
   isInteractive = true,
   active,
   label,
+  wrapperClass = "",
   ...props
 }: {
   isInteractive?: boolean;
   active?: boolean;
+  wrapperClass?: string;
   label?: {
     title: string;
     amount: string;
@@ -25,7 +27,8 @@ export function GridTileImage({
           relative: label,
           'border-2 border-blue-600': active,
           'border-neutral-200 dark:border-neutral-800': !active
-        }
+        },
+        wrapperClass
       )}
     >
       {props.src ? (

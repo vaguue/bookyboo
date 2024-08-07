@@ -16,52 +16,29 @@ export default async function Footer() {
 
   return (
     <footer className="text-sm text-neutral-500 dark:text-neutral-400">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 border-t border-neutral-200 px-6 py-12 text-sm md:flex-row md:gap-12 md:px-4 min-[1320px]:px-0 dark:border-neutral-700">
+      <div className="mx-auto px-2 flex items-center justify-between w-full max-w-7xl flex-row gap-6 border-t border-neutral-200 pt-4 text-sm md:flex-row md:gap-12 md:px-4 min-[1320px]:px-0 dark:border-neutral-700">
         <div>
           <Link className="flex items-center gap-2 text-black md:pt-1 dark:text-white" href="/">
             <LogoSquare size="sm" />
             <span className="uppercase">{SITE_NAME}</span>
           </Link>
         </div>
-        <Suspense
-          fallback={
-            <div className="flex h-[188px] w-[200px] flex-col gap-2">
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
+        <div className="py-6 text-sm dark:border-neutral-700 flex sm:flex-row flex-col">
+          <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 md:flex-row md:gap-0 md:px-4 min-[1320px]:px-0">
+            <div className="flex gap-2 sm:flex-row flex-col">
+              <p>
+                &copy; {copyrightDate} {copyrightName}
+                {copyrightName.length && !copyrightName.endsWith('.') ? '.' : ''} All rights reserved.
+              </p>
+              <a href="/terms.pdf" rel="noopener noreferrer" className="underline" target="_blank">
+                Terms of use
+              </a>
+              <a href="/privacy.pdf" rel="noopener noreferrer" className="underline" target="_blank">
+                Privacy policy
+              </a>
+              <a href={`mailto:support@bookyboo.shop`} rel="noopener noreferrer" className="underline" target="_blank">{process.env.PUBLIC_EMAIL}</a>
             </div>
-          }
-        >
-          <FooterMenu menu={menu} />
-        </Suspense>
-        <div className="md:ml-auto">
-          <a
-            className="flex h-8 w-max flex-none items-center justify-center rounded-md border border-neutral-200 bg-white text-xs text-black dark:border-neutral-700 dark:bg-black dark:text-white"
-            aria-label="Deploy on Vercel"
-            href="https://vercel.com/templates/next.js/nextjs-commerce"
-          >
-            <span className="px-3">▲</span>
-            <hr className="h-full border-r border-neutral-200 dark:border-neutral-700" />
-            <span className="px-3">Deploy</span>
-          </a>
-        </div>
-      </div>
-      <div className="border-t border-neutral-200 py-6 text-sm dark:border-neutral-700">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 md:flex-row md:gap-0 md:px-4 min-[1320px]:px-0">
-          <p>
-            &copy; {copyrightDate} {copyrightName}
-            {copyrightName.length && !copyrightName.endsWith('.') ? '.' : ''} All rights reserved.
-          </p>
-          <hr className="mx-4 hidden h-4 w-[1px] border-l border-neutral-400 md:inline-block" />
-          <p>Designed in California</p>
-          <p className="md:ml-auto">
-            <a href="https://vercel.com" className="text-black dark:text-white">
-              Crafted by ▲ Vercel
-            </a>
-          </p>
+          </div>
         </div>
       </div>
     </footer>
