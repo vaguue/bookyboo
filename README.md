@@ -4,6 +4,11 @@
 
 This project is a hackable fork of vercel/commerce, swapping out Shopify for LemonSqueezy and @vercel/kv. The aim is to make it super easy for anyone to set up a digital product store using React. Whether you're selling ebooks, software, or any other digital goods, this setup has got you covered.
 
+## Why?
+ 
+There should be some easy way to set up a website to sell digital goods without too much of a hustle for a developer. I hope this would be it.
+
+## Next.js Commerce x LemonSqueezy
 
 A Next.js 14 and App Router-ready ecommerce template featuring:
 
@@ -25,18 +30,24 @@ A Next.js 14 and App Router-ready ecommerce template featuring:
 ## LemonSqueezy
 [LemonSqueezy](https://www.lemonsqueezy.com/) is a payments, tax & subscriptions service for software companies, that enables the most convinient and smooth integration for commercial projects online. Checkout their [Github](https://github.com/lmsqueezy) page for more details.
 
-## Running locally
+## Getting started
 
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js Commerce. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/concepts/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control your Shopify store.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
-
+1. Install packages
 ```bash
-npm install
+npm i
+```
+
+2. You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js Commerce. Copy the contents of .env.example to a .env file in the root of your Next.js Commerce project, and make sure that you have @vercel/kv and lemonsqueezy variables.
+
+> Note: You should not commit your `.env` file or it will expose secrets.
+
+3. Seed the storage
+```bash
+npm run seed
+```
+
+4. Run the server
+```bash
 npm run dev
 ```
 
